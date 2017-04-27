@@ -1,0 +1,342 @@
+# plant-?-vXXX.csv
+# definitions of plant at ? (site ?)
+# bh/tfwl/20??-??-??
+
+# documents & drawings
+document,v00? 20??-??-??
+crossref,hmi_v00? 20??-??-??
+
+# state actions
+	state,run
+	state,boot,bay1=hide;bay1jets=enable;bay1lights=enable;fog=disable;dmx=enable
+	state,down,bay1=hide;bay1jets=disable;bay1lights=disable;fog=disable;dmx=disable
+	state,off,bay1=hide;bay1jets=disable;bay1lights=disable;fog=disable;dmx=disable
+	state,overnight,bay1=flush;bay1jets=disable;bay1lights=disable;fog=disable;dmx=disable
+	state,freeze,bay1=hide;bay1jets=disable;bay1lights=disable;fog=disable;dmx=disable
+
+# event actions
+#event,sunset
+#event,sunrise
+
+# webcontrol commands
+	command,bay1,plc:o,bay 1 level webcontrol,drain,hide,flood,flush
+	command,bay1jets,plc:o,bay 1 jets webcontrol,disable,enable
+	command,bay1lights,plc:o,bay 1 lights webcontrol,disable,enable
+	command,fog,plc:o,fog webcontrol,disable,enable
+	command,dmx,plc:o,DMX webcontrol,disable,enable
+command,modbustest,plc:o5040,PLC modbus read/write test variable webcontrol,a,b,c
+
+# commands
+	command,eppowercommand,plc:o,EP AC power command,inhibit,automatic
+	command,gcommand,plc:o,bay 1 display pump DC power supply [G] command,inhibit,automatic,manual
+	command,gcommand,plc:o,bay 1 display lighting DC power supply [G] command,inhibit,automatic,manual
+	command,gcommand,plc:o,DMX DC power supply [G] command,inhibit,automatic,manual
+	command,bay1levelcommand,plc:o,bay 1 level command,manual drain,manual hide,manual flood,manual flush,automatic
+	command,featurecontrolmodecommand,plc:o,feature control mode command,stop all operaton,automatic,drain & refill,allow manual
+	command,powerupactioncommand,plc:o,power up action command,stop all operaton,automatic,drain & refill,allow manual
+	command,rebootcommand,plc:o,reboot router & show PC command,normal,reboot
+	command,airtempactioncommand,plc:o,air temperature detection command,disable,enable
+	command,watertempactioncommand,plc:o,high water temperature action command,enable refresh,stop feature,take no action
+	command,refreshactioncommand,plc:o,weekly 04:00 main tank refresh action command,sunday,monday,tuesday,wednesday,thursday,friday,saturday,disable
+	command,floodalarmtestactioncommand,plc:o,weekly monday 12:00 flood alarm test action command,disable,enable
+	command,pcommand,plc:o,compressor P [M] command,inhibit,automatic
+	command,foggroupcommand,plc:o,fog equipment group command,inhibit,automatic,manual
+	command,vcommand,plc:o,fog make-up valve V [Y] command,manual close,automatic,manual open
+	command,pcommand,plc:o,fog booster pump P [M] command,inhibit,automatic,manual
+	command,pcommand,plc:o,fog pressure pump P [M] command,inhibit,automatic,manual
+	command,gcommand,plc:o,fog UV [G] command,inhibit,automatic,manual
+	command,vcommand,plc:o,tank make-up valve V [Y] command,manual close,automatic,manual open
+	command,dvcommand,plc:o,tank storm valve DV [Y] command,manual close,automatic,manual open
+	command,dvcommand,plc:o,tank low level overflow valve DV [Y] command,manual close,automatic,manual open
+	command,pcommand,plc:o,tank drain pump P [M] command,inhibit,automatic,manual
+	command,vcommand,plc:o,bay 1 delivery valve V [Y] command,manual close,automatic,manual open
+	command,vcommand,plc:o,bay 1 drain valve V [Y] command,manual close,automatic,manual open
+	command,vcommand,plc:o,dirty tank suction valve V [Y] command,manual close,automatic,manual open
+	command,vcommand,plc:o,dirty tank return valve V [Y] command,manual close,automatic,manual open
+	command,pcommand,plc:o,display/recirculation pump P [M] command,inhibit,automatic,manual
+	command,vcommand,plc:o,dirty tank sandfilter auto backwash valve V [U] command,manual close,filter,backwash,rinse,waste,recirculate,automatic
+	command,gcommand,plc:o,UV [G] command,inhibit,automatic,manual	
+	command,pcommand,plc:o,acid dosing pump P [M] command,inhibit,automatic,manual
+	command,vcommand,plc:o,brominator valve V [Y] command,manual close,automatic,manual open
+
+# public
+	scalebcd,bay1level,plc:o,bay 1 level [B],mm,1,0
+	status,bay1levelstatus,plc:o,bay 1 level status,drained,hidden,flooded,flushing
+	status,bay1fillingstatus,plc:o,bay 1 filling status,none,emptying,filling
+	scalebcd,airtemp,plc:o,air temperature [B],deg C,10,500
+	status,airtempstatus,plc:o,air temperature status,temperature ok,sensor overridden,temperature too low,sensor failure
+alarms,alarms,plc:o1420,alarms,1
+alarms,alarms,plc:o1421,alarms,17
+alarms,alarms,plc:o1422,alarms,33
+alarms,alarms,plc:o1423,alarms,49
+alarms,alarms,plc:o1424,alarms,65
+alarms,alarms,plc:o1425,alarms,81
+alarms,alarms,plc:o1426,alarms,97
+alarms,alarms,plc:o1427,alarms,113
+
+# private status
+	status,eppower,plc:o,EP AC power status,disabled,enabled,earth fault
+	status,g,plc:o,bay 1 display pump DC power supply [G] status,disabled,enabled,power supply fault
+	scalelongbcd,gruntime,plc:o,bay 1 display pump DC power supply [G] runtime,hours,1,0
+	status,g,plc:o,bay 1 display lighting DC power supply [G] status,disabled,enabled
+	scalelongbcd,gruntime,plc:o,bay 1 display lighting DC power supply [G] runtime,hours,1,0
+	status,g,plc:o,DMX DC power supply [G] status,disabled,enabled
+	status,featurecontrolmodestatus,plc:o,feature control mode status,inhibited,ready,running,draining/refilling,maintenance
+bitmaprev,localdaily,plc:o40645,local daily settings,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,=sun,=mon,=tue,=wed,=thu,=fri,=sat,xxx
+
+# private compressor
+	status,p,plc:o,compressor P [M] status,inhibited,isolated,ready,running,supply fault,low air pressure
+	scalebcd,ppressure,plc:o,compressor P [M] pressure [B],bar,100,0
+	scalebcd,pfrequency,plc:o,compressor P [M] start frequency,hour-1,1,0
+	scalebcd,pon,plc:o,compressor P [M] last run duration,seconds,1,0
+	scalebcd,poff,plc:o,compressor P [M] last off duration,seconds,1,0
+	scalebcd,pperiod,plc:o,compressor P [M] last period,seconds,1,0
+	scalebcd,pduty,plc:o,compressor P [M] last duty,%,10,0
+	scalelongbcd,pruntime,plc:o,compressor P [M] runtime,hours,1,0
+
+# private fog
+	status,foggroup,plc:o,fog equipment group status,inhibited,isolated,ready,running,supply fault,drive fault
+	status,v,plc:o,fog make-up valve V [Y] status,closed,opened,closing,opening,movement fault
+	status,p,plc:o,fog booster pump P [M] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low water level
+	scalelongbcd,pruntime,plc:o,fog booster pump P [M] runtime,hours,1,0
+	status,p,plc:o,fog pressure pump P [M] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low water level
+	scalelongbcd,pruntime,plc:o,fog pressure pump P [M] runtime,hours,1,0
+	status,g,plc:o,fog UV [G] status,inhibited,isolated,ready,running,restart inhibit,overcurrent fault,earth fault,lamp fault,overtemperature,lamp life exceeded
+	scalelongbcd,gruntime,plc:o,fog UV [G] runtime,hours,1,0
+	status,fogtanklevelstatus,plc:o,fog break tank level status,below minimum,below normal,normal
+	status,fogsupplypressure,plc:o,fog supply pressure status,below minimum,ok,above maximum
+	status,fogdeliverypressure,plc:o,fog delivery pressure status,below minimum,ok,above maximum
+	status,fogfillingstatus,plc:o,fog filling status,none,filling
+
+# private level & valves
+	scalebcd,dirtytanklevel,plc:o,dirty tank level [B],mm,1,0
+	scalebcd,cleantanklevel,plc:o,clean tank level [B],mm,1,0
+	status,v,plc:o,water softener V [G] status,inhibited,isolated,enabled,supply fault
+	status,v,plc:o,tank make-up valve V [Y] status,closed,opened,closing,opening,movement fault
+	status,dv,plc:o,tank storm valve DV [Y] status,closed,opened,closing,opening,movement fault,low air pressure
+	status,dv,plc:o,tank low level overflow valve DV [Y] status,closed,opened,closing,opening,movement fault,low air pressure
+	status,pstatus,plc:o,tank drain pump P [M] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low water level
+	scalelongbcd,pruntime,plc:o,tank drain pump P [M] runtime,hours,1,0
+	status,v,plc:o,bay 1 delivery valve V [Y] status,closed,opened,closing,opening,movement fault,low air pressure
+	status,v,plc:o,bay 1 drain valve V [Y] status,closed,opened,closing,opening,movement fault,low air pressure
+	status,v,plc:o,dirty tank suction valve V [Y] status,closed,opened,closing,opening,movement fault
+	status,v,plc:o,dirty tank return valve V [Y] status,closed,opened,closing,opening,movement fault,low air pressure
+
+# private display pumps, filter pump & UV
+	status,p,plc:o,display/recirculation pump P [M] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+	scale,pfault,plc:o,display/recirculation pump P [M] invertor fault code,hex2,1,0
+	scale,pcurrent,plc:o,display/recirculation pump P [M] current,A,10,0
+	scale,pfrequency,plc:o,display/recirculation pump P [M] frequency,Hz,10,0
+	scale,poverridefrequencysetpoint,plc:o,display/recirculation pump P [M] temporary override frequency setpoint,Hz,10,0
+	scale,pnormalfrequencysetpoint,plc:o,display/recirculation pump P [M] normal daily operating frequency setpoint,Hz,10,0
+	scale,pprimingfrequencysetpoint,plc:o,display/recirculation pump P [M] priming frequency setpoint,Hz,10,0
+	scale,plowfrequencysetpoint,plc:o,display/recirculation pump P [M] low frequency setpoint,Hz,10,0
+	scale,phighfrequencysetpoint,plc:o,display/recirculation pump P [M] high frequency setpoint,Hz,10,0
+	scalelongbcd,pruntime,plc:o,display/recirculation pump P [M] runtime,hours,1,0
+	scale,ppostpressure,plc:o,sandfilter post pressure [B],bar,100,0
+	status,v,plc:o,dirty tank sandfilter auto backwash valve V [U] status,closed,filtering,backwashing,rinsing,draining,recirculating,in motion
+	scalebcd,vbackwashcycles,plc:o,regen tank sandfilter backwash cycles completed,,1,0
+	status,g,plc:o,UV [G] status,inhibited,isolated,ready,running,restart inhibit,overcurrent fault,earth fault,lamp fault,overtemperature,lamp life exceeded
+	scalebcd,gcurrent,plc:o,UV [G] current,A,10,0
+	scalebcd,gtemp,plc:o,UV [G] temperature,deg C,10,500
+	scalelongbcd,gruntime,plc:o,UV [G] runtime,hours,1,0
+
+# private pH
+	status,p,plc:o,acid dosing pump P [M] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low level
+	scalelongbcd,pruntime,plc:o,acid dosing pump P [M] runtime,hours,1,0
+	status,phdosingstatus,plc:o,pH dosing status,inhibited,running,high pH alarm,low pH alarm,no correction required,probe [B] or ABB [A] failure
+	scalebcd,ph,plc:o,pH [B],,100,0
+	scalebcd,phhighsetpoint,plc:o,pH high alarm setpoint,,100,0
+	scalebcd,phsetpoint,plc:o,pH setpoint,,100,0
+	scalebcd,phlowsetpoint,plc:o,pH low alarm setpoint,,100,0
+
+# private ORP
+	status,v,plc:o,brominator valve V [Y] status,closed,opened,closing,opening,movement fault
+	status,orpdosingstatus,plc:o,ORP dosing status,inhibited,opened,high ORP alarm,low ORP alarm,no correction required,probe [B] or ABB [A] failure
+	scalebcd,orp,plc:o,ORP [B],mV,1,0
+	scalebcd,orphighsetpoint,plc:o,ORP high alarm setpoint,mV,1,0
+	scalebcd,orpsetpoint,plc:o,ORP setpoint,mV,1,0
+	scalebcd,orplowsetpoint,plc:o,ORP low alarm setpoint,mV,1,0
+
+# private temperature
+	scalebcd,airtempstopsetpoint,plc:o,air temperature stop setpoint,deg C,10,500
+	scalebcd,airtemphysteresissetpoint,plc:o,air temperature hysteresis setpoint,deg C,10,0
+	scalebcd,airtempstartsetpoint,plc:o,air temperature restart setpoint (inferred),deg C,10,500
+	scalebcd,watertemp,plc:o,water temperature [B],deg C,10,0
+	status,watertempstatus,plc:o,water temperature status,temperature ok,sensor overridden,temperature too high,probe [B] or ABB [A] failure,refresh in progress
+	scalebcd,waterhightempshutdownsetpoint,plc:o,water temperature shutdown setpoint,deg C,10,0
+	scalebcd,waterhightemphysteresissetpoint,plc:o,water temperature hysteresis setpoint,deg C,10,0
+	scalebcd,waterhightemprestartsetpoint,plc:o,water temperature restart setpoint (inferred),deg C,10,0
+
+# private level setpoints
+	scalebcd,dirtytankrefreshsetpoint,plc:o,dirty tank refresh volume setpoint,%,1,0
+	scalebcd,dirtytankrefreshtargetsetpoint,plc:o,dirty tank refresh target level setpoint (inferred),mm,1,0
+	scalebcd,dirtytankdrainandrefillsetpoint,plc:o,dirty tank drain and refill target level setpoint,mm,1,0
+	scalebcd,dirtytankdynamictostaticdelaysetpoint,plc:o,dirty tank dynamic to static delay setpoint,mins,60,0
+	scalebcd,dirtytankdynamictostaticdelaycountdown,plc:o,dirty tank dynamic to static delay countdown,mins,1,0
+	scalebcd,dirtytankstatictodynamicdelaysetpoint,plc:o,dirty tank static to dynamic delay setpoint,mins,60,0
+	scalebcd,dirtytankstatictodynamicdelaycountdown,plc:o,dirty tank static to dynamic delay  countdown,mins,1,0
+	scalebcd,dirtytankoverfillingallowancesetpoint,plc:o,dirty tank overfilling allowance setpoint,mm,1,0
+	scalebcd,dirtytankabsmaxsetpoint,plc:o,dirty tank level absolute maximum setpoint,mm,1,0
+	scalebcd,dirtytankdrainstartsetpoint,plc:o,dirty tank drain start level setpoint,mm,1,0
+	scalebcd,dirtytankstaticmaxsetpoint,plc:o,dirty tank level static maximum setpoint,mm,1,0
+	scalebcd,dirtytankstaticminsetpoint,plc:o,dirty tank level static minimum setpoint,mm,1,0
+	scalebcd,dirtytankdynamicmaxsetpoint,plc:o,dirty tank level dynamic maximum setpoint,mm,1,0
+	scalebcd,dirtytankdynamicminsetpoint,plc:o,dirty tank level dynamic minimum setpoint,mm,1,0
+	scalebcd,dirtytankabsminsetpoint,plc:o,dirty tank level absolute minimum setpoint,mm,1,0
+	scalebcd,bay1absmaxsetpoint,plc:o,bay 1 absolute maximum level setpoint,mm,1,0
+	scalebcd,bay1floodmaxsetpoint,plc:o,bay 1 flood operating maximum level setpoint,mm,1,0
+	scalebcd,bay1floodminsetpoint,plc:o,bay 1 flood operating minimum level setpoint,mm,1,0
+	scalebcd,bay1hidemaxsetpoint,plc:o,bay 1 hide operating maximum level setpoint,mm,1,0
+	scalebcd,bay1hideminsetpoint,plc:o,bay 1 hide operating minimum level setpoint,mm,1,0
+	scalebcd,bay1pumpstartsetpoint,plc:o,bay 1 pump start level setpoint,mm,1,0
+	scalebcd,bay1pumpstopsetpoint,plc:o,bay 1 pump stop level setpoint,mm,1,0
+
+# plc date and time
+scalebcd,year,plc:o7774,year,,1,0
+scalebcd,month,plc:o7773,month,,1,0
+scalebcd,dayofmonth,plc:o7772,day of month,,1,0
+scalebcd,dayofweek,plc:o7771,day of week (0=sun),,1,0
+scalebcd,hour,plc:o7770,hour,,1,0
+scalebcd,minutes,plc:o7767,minutes,,1,0
+scalebcd,seconds,plc:o7766,seconds,,1,0
+
+# alarm names
+# 0 emerg: not in use
+# 1 alert: not in use
+# 2 crit: display alarm on webpanel home and maintenance tab, generate red plant cross and send SMS/email message 
+# 3 err: display alarm on webpanel home and maintenance tab and generate red plant cross
+# 4 warning: display alarm on webpanel home and maintenance tab
+# 5 notice: display alarm on webpanel maintenance tab only
+# 6 info: not in use
+# 7 debug: display no alarm on webpanel
+syslog,1
+syslog,2
+syslog,3
+syslog,4
+syslog,5
+syslog,6
+syslog,7
+syslog,8
+syslog,9
+syslog,10
+syslog,11
+syslog,12
+syslog,13
+syslog,14
+syslog,15
+syslog,16
+syslog,17
+syslog,18
+syslog,19
+syslog,20
+syslog,21
+syslog,22
+syslog,23
+syslog,24
+syslog,25
+syslog,26
+syslog,27
+syslog,28
+syslog,29
+syslog,30
+syslog,31
+syslog,32
+syslog,33
+syslog,34
+syslog,35
+syslog,36
+syslog,37
+syslog,38
+syslog,39
+syslog,40
+syslog,41
+syslog,42
+syslog,43
+syslog,44
+syslog,45
+syslog,46
+syslog,47
+syslog,48
+syslog,49
+syslog,50
+syslog,51
+syslog,52
+syslog,53
+syslog,54
+syslog,55
+syslog,56
+syslog,57
+syslog,58
+syslog,59
+syslog,60
+syslog,61
+syslog,62
+syslog,63
+syslog,64
+syslog,65
+syslog,66
+syslog,67
+syslog,68
+syslog,69
+syslog,70
+syslog,71
+syslog,72
+syslog,73
+syslog,74
+syslog,75
+syslog,76
+syslog,77
+syslog,78
+syslog,79
+syslog,80
+syslog,81
+syslog,82
+syslog,83
+syslog,84
+syslog,85
+syslog,86
+syslog,87
+syslog,88
+syslog,89
+syslog,90
+syslog,91
+syslog,92
+syslog,93
+syslog,94
+syslog,95
+syslog,96
+syslog,97
+syslog,98
+syslog,99
+syslog,100
+syslog,101
+syslog,102
+syslog,103
+syslog,104
+syslog,105
+syslog,106
+syslog,107
+syslog,108
+syslog,109
+syslog,110
+syslog,111
+syslog,112
+syslog,113
+syslog,114
+syslog,115
+syslog,116
+syslog,117
+syslog,118
+syslog,119
+syslog,120
+syslog,121
+syslog,122
+syslog,123
+syslog,124
+syslog,125
+syslog,126
+syslog,127
+syslog,128
+
+# end
