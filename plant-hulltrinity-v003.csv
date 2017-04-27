@@ -1,0 +1,190 @@
+# plant-hulltrinity-vXXX.csv
+# definitions of plant at 774tsq (site 11)
+# bh/tfwl/2017-02-17
+
+# documents & drawings
+document,v003 2017-04-25
+crossref,hmi_v001 2017-04-04
+
+# state actions
+state,run
+state,boot,bay1=enable;bay2=enable;bay3=enable;bay4=enable
+state,down,bay1=disable;bay2=disable;bay3=disable;bay4=disable
+state,off,bay1=disable;bay2=disable;bay3=disable;bay4=disable
+state,overnight,bay1=disable;bay2=disable;bay3=disable;bay4=disable
+state,freeze,bay1=disable;bay2=disable;bay3=disable;bay4=disable
+
+# event actions
+#event,sunset
+#event,sunrise
+
+# webcontrol commands
+command,bay1,plc:o6410,pool 1(N) & pool 2(S) webcontrol,disable,enable
+command,bay2,plc:o6430,pool 3(N) & pool 4(S) webcontrol,disable,enable
+command,bay3,plc:o6450,pool 5(N) & pool 6(S) webcontrol,disable,enable
+command,bay4,plc:o6470,pool 7(N) & pool 8(S) webcontrol,disable,enable
+#command,bayflow,plc:o,pool flow webcontrol,low,normal,high
+command,modbustest,plc:o5040,PLC modbus read/write test variable webcontrol,a,b,c
+
+# commands
+command,featurecontrolmodecommand,plc:o6000,feature control mode command,stop all operaton,automatic,drain & refill,allow manual
+command,powerupactioncommand,plc:o5000,power up action command,stop all operaton,automatic,drain & refill,allow manual
+command,rebootcommand,plc:o5004,reboot router & show PC command,normal,reboot
+command,airtempactioncommand,plc:o6020,air temperature detection command,disable,enable
+command,watertempactioncommand,plc:o5250,high water temperature action command,enable refresh,stop feature,take no action
+command,refreshactioncommand,plc:o5121,weekly 04:00 main tank refresh action command,sunday,monday,tuesday,wednesday,thursday,friday,saturday,disable
+command,floodalarmtestactioncommand,plc:o5003,weekly monday 12:00 flood alarm test action command,disable,enable
+command,v204command,plc:o6200,tank make-up valve V204 [Y76] command,manual close,automatic,manual open
+command,p208command,plc:o5206,tank drain pump P208 [M81] command,inhibit,automatic,manual
+command,v210command,plc:o6201,tank suction valve V210 [Y96] command,manual close,automatic,manual open
+command,p202command,plc:o5410,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] command,inhibit,automatic,manual
+command,p203command,plc:o5430,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] command,inhibit,automatic,manual
+command,p204command,plc:o5450,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] command,inhibit,automatic,manual
+command,p205command,plc:o5470,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] command,inhibit,automatic,manual
+command,p201command,plc:o5200,display/recirculation filter pump P201 [M91] command,inhibit,automatic,manual
+command,g112command,plc:o6207,UV [G112] command,inhibit,automatic,manual
+command,p206command,plc:o5207,acid dosing pump P206 [M108] command,inhibit,automatic,manual
+command,v221command,plc:o6206,brominator valve V221 [Y104] command,manual close,automatic,manual open
+
+# public
+scalebcd,airtemp,plc:o4021,air temperature [B74],deg C,10,500
+status,airtempstatus,plc:o4020,air temperature status,temperature ok,sensor overridden,temperature too low,sensor failure
+alarms,alarms,plc:o1420,alarms,1
+alarms,alarms,plc:o1421,alarms,17
+alarms,alarms,plc:o1422,alarms,33
+alarms,alarms,plc:o1423,alarms,49
+alarms,alarms,plc:o1424,alarms,65
+alarms,alarms,plc:o1425,alarms,81
+alarms,alarms,plc:o1426,alarms,97
+alarms,alarms,plc:o1427,alarms,113
+
+# private status
+status,featurecontrolmode,plc:o4000,feature control mode status,inhibited,ready,running,draining/refilling,maintenance
+bitmaprev,localdaily,plc:o40645,local daily settings,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,=sun,=mon,=tue,=wed,=thu,=fri,=sat,xxx
+
+# private level & valves
+scalebcd,tanklevel,plc:o3300,tank level [B101],mm,1,0
+status,v204,plc:o4200,tank make-up valve V204 [Y76] status,closed,opened,closing,opening,movement fault
+status,p208,plc:o3206,tank drain pump P208 [M81] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low water level
+scalelongbcd,p208runtime,plc:o5602,tank drain pump P208 [M81] runtime,hours,1,0
+status,v210,plc:o4201,tank suction valve V210 [Y95] status,closed,opened,closing,opening,movement fault
+
+# private display pumps, filter pump & UV
+status,p202,plc:o3410,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+status,p203,plc:o3430,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+status,p204,plc:o3450,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+status,p205,plc:o3470,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+scale,p202fault,plc:o2425,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] invertor fault code,hex2,1,0
+scale,p203fault,plc:o2435,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] invertor fault code,hex2,1,0
+scale,p204fault,plc:o2445,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] invertor fault code,hex2,1,0
+scale,p205fault,plc:o2455,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] invertor fault code,hex2,1,0
+scale,p202current,plc:o2422,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] current,A,10,0
+scale,p203current,plc:o2432,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] current,A,10,0
+scale,p204current,plc:o2442,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] current,A,10,0
+scale,p205current,plc:o2452,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] current,A,10,0
+scale,p202frequency,plc:o2421,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] frequency,Hz,10,0
+scale,p203frequency,plc:o2431,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] frequency,Hz,10,0
+scale,p204frequency,plc:o2441,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] frequency,Hz,10,0
+scale,p205frequency,plc:o2451,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] frequency,Hz,10,0
+scale,p202overridefrequencysetpoint,plc:o7420,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] temporary override frequency setpoint,Hz,10,0
+scale,p203overridefrequencysetpoint,plc:o7430,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] temporary override frequency setpoint,Hz,10,0
+scale,p204overridefrequencysetpoint,plc:o7440,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] temporary override frequency setpoint,Hz,10,0
+scale,p205overridefrequencysetpoint,plc:o7450,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] temporary override frequency setpoint,Hz,10,0
+scale,p202normalfrequencysetpoint,plc:o7422,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] normal daily operating frequency setpoint,Hz,10,0
+scale,p203normalfrequencysetpoint,plc:o7432,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] normal daily operating frequency setpoint,Hz,10,0
+scale,p204normalfrequencysetpoint,plc:o7442,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] normal daily operating frequency setpoint,Hz,10,0
+scale,p205normalfrequencysetpoint,plc:o7452,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] normal daily operating frequency setpoint,Hz,10,0
+scale,p202primingfrequencysetpoint,plc:o7421,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] priming frequency setpoint,Hz,10,0
+scale,p203primingfrequencysetpoint,plc:o7431,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] priming frequency setpoint,Hz,10,0
+scale,p204primingfrequencysetpoint,plc:o7441,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] priming frequency setpoint,Hz,10,0
+scale,p205primingfrequencysetpoint,plc:o7451,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] priming frequency setpoint,Hz,10,0
+scale,p202lowfrequencysetpoint,plc:o7423,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] low frequency setpoint,Hz,10,0
+scale,p203lowfrequencysetpoint,plc:o7433,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] low frequency setpoint,Hz,10,0
+scale,p204lowfrequencysetpoint,plc:o7443,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] low frequency setpoint,Hz,10,0
+scale,p205lowfrequencysetpoint,plc:o7453,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] low frequency setpoint,Hz,10,0
+scale,p202highfrequencysetpoint,plc:o7424,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] high frequency setpoint,Hz,10,0
+scale,p203highfrequencysetpoint,plc:o7434,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] high frequency setpoint,Hz,10,0
+scale,p204highfrequencysetpoint,plc:o7444,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] high frequency setpoint,Hz,10,0
+scale,p205highfrequencysetpoint,plc:o7454,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] high frequency setpoint,Hz,10,0
+scalelongbcd,p202runtime,plc:o5610,pool 1(N) & pool 2(S) display/recirculation pump P202 [M121] runtime,hours,1,0
+scalelongbcd,p203runtime,plc:o5612,pool 3(N) & pool 4(S) display/recirculation pump P203 [M131] runtime,hours,1,0
+scalelongbcd,p204runtime,plc:o5614,pool 5(N) & pool 6(S) display/recirculation pump P204 [M141] runtime,hours,1,0
+scalelongbcd,p205runtime,plc:o5616,pool 7(N) & pool 8(S) display/recirculation pump P205 [M151] runtime,hours,1,0
+status,p201,plc:o3200,display/recirculation filter pump P201 [M91] status,inhibited,isolated,ready,running,earth fault,drive fault,low water level,pressure loop error
+scale,p201fault,plc:o2215,display/recirculation filter pump P201 [M91] invertor fault code,hex2,1,0
+scale,p201current,plc:o2212,display/recirculation filter pump P201 [M91] current,A,10,0
+scale,p201frequency,plc:o2211,display/recirculation filter pump P201 [M91] frequency,Hz,10,0
+scale,p201overridefrequencysetpoint,plc:o7214,display/recirculation filter pump P201 [M91] temporary override frequency setpoint,Hz,10,0
+scalebcd,p201overridepressuresetpoint,plc:o7210,display/recirculation filter pump P201 [M91] temporary override pressure setpoint,bar,100,0
+scalebcd,p201backwashfrequencysetpoint,plc:o7215,display/recirculation filter pump P201 [M91] backwash frequency setpoint,Hz,10,0
+scalelongbcd,p201runtime,plc:o5604,display/recirculation filter pump P201 [M91] runtime,hours,1,0
+scale,p201postpressure,plc:o2213,sandfilter post pressure [B95],bar,100,0
+status,g112,plc:o4207,UV [G112] status,inhibited,isolated,ready,running,restart inhibit,overcurrent fault,earth fault,lamp fault,overtemperature,lamp life exceeded
+scalebcd,g112current,plc:o3261,UV [G112] current,A,10,0
+scalebcd,g112temp,plc:o3271,UV [G112] temperature,deg C,10,500
+scalelongbcd,g112runtime,plc:o5606,UV [G112] runtime,hours,1,0
+
+# private pH
+status,p206,plc:o3207,acid dosing pump P206 [M108] status,inhibited,isolated,ready,running,earth fault,overcurrent fault,low level
+scalelongbcd,p206runtime,plc:o5620,acid dosing pump P206 [M108] runtime,hours,1,0
+status,phdosingstatus,plc:o3235,pH dosing status,inhibited,running,high pH alarm,low pH alarm,no correction required,probe [B101] or ABB [A101] failure
+scalebcd,ph,plc:o3231,pH [B101],,100,0
+scalebcd,phhighsetpoint,plc:o5232,pH high alarm setpoint,,100,0
+scalebcd,phsetpoint,plc:o5230,pH setpoint,,100,0
+scalebcd,phlowsetpoint,plc:o5233,pH low alarm setpoint,,100,0
+
+# private ORP
+status,v221,plc:o4206,brominator valve V221 [Y104] status,closed,opened,closing,opening,movement fault
+status,orpdosingstatus,plc:o3245,ORP dosing status,inhibited,opened,high ORP alarm,low ORP alarm,no correction required,probe [B102] or ABB [A101] failure
+scalebcd,orp,plc:o3241,ORP [B102],mV,1,0
+scalebcd,orphighsetpoint,plc:o5242,ORP high alarm setpoint,mV,1,0
+scalebcd,orpsetpoint,plc:o5240,ORP setpoint,mV,1,0
+scalebcd,orplowsetpoint,plc:o5243,ORP low alarm setpoint,mV,1,0
+
+# private temperature
+scalebcd,airtempstopsetpoint,plc:o6023,air temperature stop setpoint,deg C,10,500
+scalebcd,airtemphysteresissetpoint,plc:o6021,air temperature hysteresis setpoint,deg C,10,0
+scalebcd,airtempstartsetpoint,plc:o6026,air temperature restart setpoint (inferred),deg C,10,500
+scalebcd,watertemp,plc:o3251,water temperature [B101],deg C,10,0
+status,watertempstatus,plc:o3255,water temperature status,temperature ok,sensor overridden,temperature too high,probe [B101] or ABB [A101] failure,refresh in progress
+scalebcd,waterhightempshutdownsetpoint,plc:o5252,water temperature shutdown setpoint,deg C,10,0
+scalebcd,waterhightemphysteresissetpoint,plc:o5251,water temperature hysteresis setpoint,deg C,10,0
+scalebcd,waterhightemprestartsetpoint,plc:o5255,water temperature restart setpoint (inferred),deg C,10,0
+
+# private level setpoints
+scalebcd,tankrefreshsetpoint,plc:o5312,tank refresh volume setpoint,%,1,0
+scalebcd,tankrefreshtargetsetpoint,plc:o5313,tank refresh target level setpoint (inferred),mm,1,0
+scalebcd,tankdrainandrefillsetpoint,plc:o5311,tank drain and refill target level setpoint,mm,1,0
+scalebcd,tankdynamictostaticdelaysetpoint,plc:o5360,tank dynamic to static delay setpoint,mins,60,0
+scalebcd,tankdynamictostaticdelaycountdown,plc:o3360,tank dynamic to static delay countdown,mins,1,0
+scalebcd,tankstatictodynamicdelaysetpoint,plc:o5364,tank static to dynamic delay setpoint,mins,60,0
+scalebcd,tankstatictodynamicdelaycountdown,plc:o3364,tank static to dynamic delay  countdown,mins,1,0
+scalebcd,tankoverfillingallowancesetpoint,plc:o5306,tank overfilling allowance setpoint,mm,1,0
+scalebcd,tankabsmaxsetpoint,plc:o5305,tank level absolute maximum setpoint,mm,1,0
+scalebcd,tankdrainstartsetpoint,plc:o5307,tank drain start level setpoint,mm,1,0
+scalebcd,tankstaticmaxsetpoint,plc:o5302,tank level static maximum setpoint,mm,1,0
+scalebcd,tankstaticminsetpoint,plc:o5301,tank level static minimum setpoint,mm,1,0
+scalebcd,tankdynamicmaxsetpoint,plc:o5304,tank level dynamic maximum setpoint,mm,1,0
+scalebcd,tankdynamicminsetpoint,plc:o5303,tank level dynamic minimum setpoint,mm,1,0
+scalebcd,tankabsminsetpoint,plc:o5300,tank level absolute minimum setpoint,mm,1,0
+
+# plc date and time
+scalebcd,year,plc:o7774,year,,1,0
+scalebcd,month,plc:o7773,month,,1,0
+scalebcd,dayofmonth,plc:o7772,day of month,,1,0
+scalebcd,dayofweek,plc:o7771,day of week (0=sun),,1,0
+scalebcd,hour,plc:o7770,hour,,1,0
+scalebcd,minutes,plc:o7767,minutes,,1,0
+scalebcd,seconds,plc:o7766,seconds,,1,0
+
+# alarm names
+# 0 emerg: not in use
+# 1 alert: not in use
+# 2 crit: display alarm on webpanel home and maintenance tab, generate red plant cross and send SMS/email message 
+# 3 err: display alarm on webpanel home and maintenance tab and generate red plant cross
+# 4 warning: display alarm on webpanel home and maintenance tab
+# 5 notice: display alarm on webpanel maintenance tab only
+# 6 info: not in use
+# 7 debug: display no alarm on webpanel
+
+# end
